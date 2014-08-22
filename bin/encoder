@@ -1,5 +1,0 @@
-#!/usr/bin/env ruby
-
-require 'encoder'
-
-Encoder::Cli.start(ARGV)

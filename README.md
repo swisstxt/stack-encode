@@ -1,28 +1,28 @@
-# Encoder
+# Stack Encode
 
 A simple gem for automating the encoding process with ffmpeg.
 
 ## Installation
 
-    $ gem install encoder
+    $ gem install stack-encode
 
 ## Usage
 
 See the help screen:
 
 ```bash
-$ encoder help
+$ stack-encode help
 
-encoder commands:
-  encoder encode FILES    # Encodes a number video or audio files
-  encoder help [COMMAND]  # Describe available commands or one specific command
-  encoder version         # Outputs the version
+stack-encode commands:
+  stack-encode encode FILES    # Encodes a number video or audio files
+  stack-encode help [COMMAND]  # Describe available commands or one specific command
+  stack-encode version         # Outputs the version
 ```
 
 Example encode command:
 
 ```bash
-$ encode -d ~/destination/ /source/files/*
+$ stack-encode encode -d ~/destination/ /source/files/*
 Trancoding 2011-05-31_0053_lo.mpg to Mp4:	    [#################################] 100%
 Trancoding 2011-05-31_0053_loaud3.mp2 to Mp3:	[#################################] 100%
 Trancoding 2011-05-31_0053_loaud4.mp2 to Mp3:	[#################################] 100%

@@ -1,16 +1,16 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'encoder/version'
+require 'stack-encode/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "encoder"
-  spec.version       = Encoder::VERSION
+  spec.name          = "stack-encode"
+  spec.version       = StackEncode::VERSION
   spec.authors       = ["Nik Wolfgramm"]
   spec.email         = ["nik.wolfgramm@swisstxt.ch"]
   spec.description   = %q{A simple gem for automating the encoding process with ffmpeg}
-  spec.summary       = %q{encoder - automating the encoding process with ffmpeg}
-  spec.homepage      = "https://github.com/swisstxt/encoder"
+  spec.summary       = %q{stack-encode - automating the encoding process with ffmpeg}
+  spec.homepage      = "https://github.com/swisstxt/stack-encode"
   spec.license       = "MIT"
 
 

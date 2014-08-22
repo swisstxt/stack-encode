@@ -1,4 +1,4 @@
-module Encoder
+module StackEncode
   require 'find'
   require 'thor'
   require 'streamio-ffmpeg'
@@ -12,12 +12,12 @@ module Encoder
       exit!
     }
 
-    package_name "encoder"
+    package_name "stack-encode"
     map %w(-v --version) => :version
 
     desc "version", "Outputs the version"
     def version
-      say "encoder v#{Encoder::VERSION}"
+      say "stack-encode v#{StackEncode::VERSION}"
     end
 
     desc "encode FILES", "Encodes a number video or audio files"
