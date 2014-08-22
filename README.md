@@ -1,5 +1,7 @@
 # Stack Encode
 
+[![Gem Version](https://badge.fury.io/rb/stack-encode.svg)](http://badge.fury.io/rb/stack-encode)
+
 A simple gem for automating the encoding process with ffmpeg.
 
 ## Installation
