@@ -6,6 +6,10 @@ module StackEncode
   class Cli < Thor
     include Thor::Actions
 
+    def self.exit_on_failure?
+      true
+    end
+
     # catch control-c and exit
     trap("SIGINT") {
       puts " bye"
@@ -32,21 +36,33 @@ module StackEncode
       desc: "audio format",
       aliases: '-a',
       default: 'mp3'
+    option :log_file,
+      desc: "log file path",
+      aliases: '-l',
+      default: '/dev/null'
+    option :verbose,
+      desc: "verbose mode",
+      type: :boolean,
+      default: true
     def encode(*files)
-      FFMPEG.logger = Logger.new('/dev/null')
+      FFMPEG.logger = Logger.new(options[:log_file])
       files.each do |source|
+        unless File.file?(source)
+          puts "#{source} is not a valid file"
+          next
+        end
         movie = FFMPEG::Movie.new(source)
         dest_format = movie.video_stream ? options[:video_format] : options[:audio_format]
         dest_dir = options[:destination] || File.dirname(source)
-        banner = "Transcoding #{File.basename(source)} to #{dest_format.upcase}"
+        banner = "Encoding #{File.basename(source)} to #{dest_format.upcase}"
         transcoded_movie = movie.transcode(
           File.expand_path(
             "#{dest_dir}/" + File.basename(source,
               File.extname(source)
             ) + ".#{dest_format}"
           )
-        ) {|progress| print_progress(progress * 100, banner)}
-        puts
+        ) { |progress| print_progress(progress * 100, banner) if options[:verbose] }
+        puts if options[:verbose]
         transcoded_movie
       end
     end

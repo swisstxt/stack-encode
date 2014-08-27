@@ -25,10 +25,10 @@ Example encode command:
 
 ```bash
 $ stack-encode encode -d ~/destination/ /source/files/*
-Transcoding 2011-05-31_0053_lo.mpg to MP4:	    [#################################] 100%
-Transcoding 2011-05-31_0053_loaud3.mp2 to MP3:	[#################################] 100%
-Transcoding 2011-05-31_0053_loaud4.mp2 to MP3:	[#################################] 100%
-Transcoding 2014-05-26_0010_lo.mp4 to MP4:	    [#################################] 100%
+Encoding 2011-05-31_0053_lo.mpg to MP4:	    [#################################] 100%
+Encoding 2011-05-31_0053_loaud3.mp2 to MP3:	[#################################] 100%
+Encoding 2011-05-31_0053_loaud4.mp2 to MP3:	[#################################] 100%
+Encoding 2014-05-26_0010_lo.mp4 to MP4:	    [#################################] 100%
 ```
 
 ## Contributing
