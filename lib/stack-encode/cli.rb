@@ -15,7 +15,7 @@ module StackEncode
     package_name "stack-encode"
     map %w(-v --version) => :version
 
-    desc "version", "Outputs the version"
+    desc "version", "Outputs the version number"
     def version
       say "stack-encode v#{StackEncode::VERSION}"
     end
@@ -38,7 +38,7 @@ module StackEncode
         movie = FFMPEG::Movie.new(source)
         dest_format = movie.video_stream ? options[:video_format] : options[:audio_format]
         dest_dir = options[:destination] || File.dirname(source)
-        banner = "Trancoding #{File.basename(source)} to #{dest_format.upcase}"
+        banner = "Transcoding #{File.basename(source)} to #{dest_format.upcase}"
         transcoded_movie = movie.transcode(
           File.expand_path(
             "#{dest_dir}/" + File.basename(source,

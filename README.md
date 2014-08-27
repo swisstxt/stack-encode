@@ -18,17 +18,17 @@ $ stack-encode help
 stack-encode commands:
   stack-encode encode FILES    # Encodes a number video or audio files
   stack-encode help [COMMAND]  # Describe available commands or one specific command
-  stack-encode version         # Outputs the version
+  stack-encode version         # Outputs the version number
 ```
 
 Example encode command:
 
 ```bash
 $ stack-encode encode -d ~/destination/ /source/files/*
-Trancoding 2011-05-31_0053_lo.mpg to MP4:	    [#################################] 100%
-Trancoding 2011-05-31_0053_loaud3.mp2 to MP3:	[#################################] 100%
-Trancoding 2011-05-31_0053_loaud4.mp2 to MP3:	[#################################] 100%
-Trancoding 2014-05-26_0010_lo.mp4 to MP4:	    [#################################] 100%
+Transcoding 2011-05-31_0053_lo.mpg to MP4:	    [#################################] 100%
+Transcoding 2011-05-31_0053_loaud3.mp2 to MP3:	[#################################] 100%
+Transcoding 2011-05-31_0053_loaud4.mp2 to MP3:	[#################################] 100%
+Transcoding 2014-05-26_0010_lo.mp4 to MP4:	    [#################################] 100%
 ```
 
 ## Contributing
