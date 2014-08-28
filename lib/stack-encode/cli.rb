@@ -40,8 +40,8 @@ module StackEncode
       desc: "log file path",
       aliases: '-l',
       default: '/dev/null'
-    option :verbose,
-      desc: "verbose mode",
+    option :progress,
+      desc: "show encoding progress",
       type: :boolean,
       default: true
     def encode(*files)
@@ -54,15 +54,19 @@ module StackEncode
         movie = FFMPEG::Movie.new(source)
         dest_format = movie.video_stream ? options[:video_format] : options[:audio_format]
         dest_dir = options[:destination] || File.dirname(source)
-        banner = "Encoding #{File.basename(source)} to #{dest_format.upcase}"
+        filename = File.basename(source, File.extname(source)) + ".#{dest_format}"
+        banner = "Encoding #{File.basename(source)} to #{dest_format.upcase} ==> #{filename}"
+        puts banner unless options[:progress]
         transcoded_movie = movie.transcode(
           File.expand_path(
-            "#{dest_dir}/" + File.basename(source,
-              File.extname(source)
-            ) + ".#{dest_format}"
+            "#{dest_dir}/" + filename
           )
-        ) { |progress| print_progress(progress * 100, banner) if options[:verbose] }
-        puts if options[:verbose]
+        ) do |progress|
+          if options[:progress]
+            print_progress(progress * 100, banner)
+          end
+        end
+        puts if options[:progress]
         transcoded_movie
       end
     end
@@ -74,7 +78,6 @@ module StackEncode
         printf (progress < 100 ? "  %02d\%" : " %3d\%"), progress
         $stdout.flush
       end
-
     end
   end
 end
