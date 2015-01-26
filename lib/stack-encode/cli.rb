@@ -44,6 +44,9 @@ module StackEncode
       desc: "show encoding progress",
       type: :boolean,
       default: true
+    option :ffmpeg_options,
+      desc: "custom ffmpeg options",
+      aliases: '-o'
     def encode(*files)
       FFMPEG.logger = Logger.new(options[:log_file])
       files.each do |source|
@@ -60,7 +63,8 @@ module StackEncode
         transcoded_movie = movie.transcode(
           File.expand_path(
             "#{dest_dir}/" + filename
-          )
+          ),
+          options[:ffmpeg_options]
         ) do |progress|
           if options[:progress]
             print_progress(progress * 100, banner)
