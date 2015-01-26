@@ -46,7 +46,8 @@ module StackEncode
       default: true
     option :ffmpeg_options,
       desc: "custom ffmpeg options",
-      aliases: '-o'
+      aliases: '-o',
+      default: ENV['FFMPEG_OPTIONS'] || nil
     def encode(*files)
       FFMPEG.logger = Logger.new(options[:log_file])
       files.each do |source|
