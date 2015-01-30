@@ -29,11 +29,11 @@ module StackEncode
       desc: "destination directory",
       aliases: '-d'
     option :video_format,
-      desc: "video format",
+      desc: "destination video format",
       aliases: '-v',
       default: 'mp4'
     option :audio_format,
-      desc: "audio format",
+      desc: "destination audio format",
       aliases: '-a',
       default: 'mp3'
     option :log_file,
@@ -44,16 +44,23 @@ module StackEncode
       desc: "show encoding progress",
       type: :boolean,
       default: true
+    option :profile_path,
+      desc: "path to profile file (YAML)",
+      aliases: '-f',
+      default: ENV['STACKENCODE_PROFILE_PATH'] || nil
     option :ffmpeg_options,
-      desc: "custom ffmpeg options",
+      desc: "custom ffmpeg options string",
       aliases: '-o',
-      default: ENV['FFMPEG_OPTIONS'] || nil
+      default: ENV['FFMPEG_OPTIONS'] || ""
     def encode(*files)
       FFMPEG.logger = Logger.new(options[:log_file])
       files.each do |source|
         unless File.file?(source)
           puts "#{source} is not a valid file"
           next
+        end
+        if options[:profile_path]
+          puts Profile.new(options[:profile_path]).settings.inspect
         end
         movie = FFMPEG::Movie.new(source)
         dest_format = movie.video_stream ? options[:video_format] : options[:audio_format]
@@ -73,6 +80,47 @@ module StackEncode
         end
         puts if options[:progress]
         transcoded_movie
+      end
+    end
+
+    desc "info FILES", "Print information for a number video or audio files"
+    def info(*files)
+      files.each do |source|
+        unless File.file?(source)
+          puts "#{source} is not a valid file"
+          next
+        end
+        file = FFMPEG::Movie.new(source)
+        if file.valid?
+          say source, :green
+          table = [
+            ["file type", file.video_stream ? "video" : "audio"],
+            ["duration", file.duration.to_s + " sec"],
+            ["bitrate", file.bitrate.to_s + " kb/s"],
+            ["size", file.size.to_s + " bytes"]
+          ]
+          table += if file.video_stream
+            [
+              ["video_codec", file.video_codec],
+              ["colorspace", file.colorspace],
+              ["resolution", file.resolution],
+              ["frame_rate", file.frame_rate.to_s + " fps"],
+              ["audio_codec", file.audio_codec],
+              ["audio_sample_rate", file.audio_sample_rate.to_s],
+              ["audio_channels", file.audio_channels.to_s]
+            ]
+          else
+            [
+              ["audio_codec", file.audio_codec],
+              ["audio_sample_rate", file.audio_sample_rate.to_s],
+              ["audio_channels", file.audio_channels.to_s]
+            ]
+          end
+          print_table table
+          puts
+        else
+          puts "Invalid source file"
+        end
       end
     end
 
