@@ -44,42 +44,42 @@ module StackEncode
       desc: "show encoding progress",
       type: :boolean,
       default: true
-    option :profile_path,
+    option :profile,
       desc: "path to profile file (YAML)",
-      aliases: '-f',
-      default: ENV['STACKENCODE_PROFILE_PATH'] || nil
+      aliases: '-p',
+      default: ENV['STACKENCODE_PROFILE'] || nil
     option :ffmpeg_options,
       desc: "custom ffmpeg options string",
       aliases: '-o',
       default: ENV['FFMPEG_OPTIONS'] || ""
     def encode(*files)
       FFMPEG.logger = Logger.new(options[:log_file])
+      profile = Profile.new(
+        profile_path: options[:profile],
+        custom_options: options[:ffmpeg_options]
+      )
       files.each do |source|
         unless File.file?(source)
           puts "#{source} is not a valid file"
           next
         end
-        if options[:profile_path]
-          puts Profile.new(options[:profile_path]).settings.inspect
-        end
-        movie = FFMPEG::Movie.new(source)
-        dest_format = movie.video_stream ? options[:video_format] : options[:audio_format]
+        file = FFMPEG::Movie.new(source)
+        dest_format = file.video_stream ? options[:video_format] : options[:audio_format]
         dest_dir = options[:destination] || File.dirname(source)
         filename = File.basename(source, File.extname(source)) + ".#{dest_format}"
         banner = "Encoding #{File.basename(source)} to #{dest_format.upcase} ==> #{filename}"
-        puts banner unless options[:progress]
-        transcoded_movie = movie.transcode(
-          File.expand_path(
-            "#{dest_dir}/" + filename
-          ),
-          options[:ffmpeg_options]
+        say banner unless options[:progress]
+        transcoded_file = file.transcode(
+          File.expand_path(File.join(dest_dir, filename)),
+          file.video_stream ? profile.video_options : profile.audio_options,
+          profile.transcoder_options
         ) do |progress|
           if options[:progress]
             print_progress(progress * 100, banner)
           end
         end
-        puts if options[:progress]
-        transcoded_movie
+        say if options[:progress]
+        transcoded_file
       end
     end
 

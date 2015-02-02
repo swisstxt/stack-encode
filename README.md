@@ -31,6 +31,35 @@ Encoding 2011-05-31_0053_loaud4.mp2 to MP3:	[#################################] 
 Encoding 2014-05-26_0010_lo.mp4 to MP4:	    [#################################] 100%
 ```
 
+## Profiles
+
+Stack Encode supports ffmpeg setting profiles in the form of YAML files.
+There are 3 different hashes for the following settings:
+
+  - video settings - used for transcoding video files
+  - audio settings - used for transcoding audio files
+  - transcoder settings - general transcoder settings
+
+This is an example profile file for stack-encode:
+
+```YAML
+---
+video:
+  resolution: 320x480
+  frame_rate: 10
+  x264_vprofile: high
+  x264_preset: slow
+  audio_codec: libfaac
+  custom: -movflags +faststart
+
+audio:
+  audio_channels: 1
+  custom: -ab 48k
+
+transcoder:
+  preserve_aspect_ratio: :width
+```
+
 ## Contributing
 
 1. Fork it

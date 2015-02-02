@@ -1,2 +1,15 @@
+---
 video:
   resolution: 320x480
+  frame_rate: 10
+  x264_vprofile: high
+  x264_preset: slow
+  audio_codec: libfaac
+  custom: -movflags +faststart
+
+audio:
+  audio_channels: 1
+  custom: -ab 64k
+
+transcoder:
+  preserve_aspect_ratio: :width
