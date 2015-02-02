@@ -40,7 +40,7 @@ There are 3 different hashes for the following settings:
   - audio settings - used for transcoding audio files
   - transcoder settings - general transcoder settings
 
-This is an example profile file for stack-encode:
+This is an example profile file for stack-encode (my_profile.yml):
 
 ```YAML
 ---
@@ -59,6 +59,12 @@ audio:
 transcoder:
   preserve_aspect_ratio: :width
 ```
+You can use the profile from above like this:
+
+```bash
+$ stack-encode encode --profile my_profile.yml audio_file.wma
+```
+
 
 ## Contributing
 
