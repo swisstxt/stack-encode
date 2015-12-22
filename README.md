@@ -65,7 +65,6 @@ You can use the profile from above like this:
 $ stack-encode encode --profile my_profile.yml audio_file.wma
 ```
 
-
 ## Contributing
 
 1. Fork it
